@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
+
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -8,161 +10,600 @@
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
+<style>
+
+body{
+    background:#f4f6f9;
+}
+
+.sidebar{
+    min-height:100vh;
+}
+
+.card{
+    border:none;
+}
+
+</style>
+
 </head>
+
 <body>
 
-<div class="container mt-4">
+<div class="container-fluid">
 
-    <h1 class="mb-4">🖨️ Printing Billing System</h1>
+<div class="row">
 
-    <div class="card">
-        <div class="card-header">
-            Add Customer
-        </div>
+<!-- SIDEBAR -->
 
-        <div class="card-body">
+<div class="col-md-2 bg-dark text-white sidebar p-3">
 
-            <input
-                type="text"
-                id="name"
-                class="form-control mb-2"
-                placeholder="Customer Name">
+<h3>🖨️ PrintSys</h3>
 
-            <input
-                type="text"
-                id="contact"
-                class="form-control mb-2"
-                placeholder="Contact Number">
+<hr>
 
-            <button
-                class="btn btn-primary"
-                onclick="addCustomer()">
-                Save Customer
-            </button>
+<div class="d-grid gap-2">
 
-        </div>
-    </div>
+<button class="btn btn-outline-light">
+Dashboard
+</button>
 
-    <div class="mt-4">
+<button class="btn btn-outline-light">
+Customers
+</button>
 
-        <button
-            class="btn btn-success"
-            onclick="loadCustomers()">
-            Refresh Customers
-        </button>
+<button class="btn btn-outline-light">
+Expenses
+</button>
 
-    </div>
+<button class="btn btn-outline-light">
+Inventory
+</button>
 
-    <div class="mt-4">
+</div>
 
-        <table class="table table-bordered table-striped">
+</div>
 
-            <thead>
+<!-- CONTENT -->
 
-                <tr>
-                    <th>ID</th>
-                    <th>Customer Names</th>
-                    <th>Contact No</th>
-                </tr>
+<div class="col-md-10 p-4">
 
-            </thead>
+<h1>Printing Billing System</h1>
 
-            <tbody id="customerTable">
+<!-- DASHBOARD -->
 
-            </tbody>
+<div class="row mt-4">
 
-        </table>
+<div class="col-md-4">
 
-    </div>
+<div class="card shadow">
+
+<div class="card-body text-center">
+
+<h5>Customers</h5>
+
+<h2 id="customerCount">0</h2>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-4">
+
+<div class="card shadow">
+
+<div class="card-body text-center">
+
+<h5>Expenses</h5>
+
+<h2 id="expenseCount">0</h2>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-4">
+
+<div class="card shadow">
+
+<div class="card-body text-center">
+
+<h5>Inventory Items</h5>
+
+<h2 id="inventoryCount">0</h2>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- CUSTOMER -->
+
+<div class="card shadow mt-4">
+
+<div class="card-header">
+
+Add Customer
+
+</div>
+
+<div class="card-body">
+
+<div class="row">
+
+<div class="col-md-5">
+
+<input
+id="name"
+class="form-control"
+placeholder="Customer Name">
+
+</div>
+
+<div class="col-md-5">
+
+<input
+id="contact"
+class="form-control"
+placeholder="Contact Number">
+
+</div>
+
+<div class="col-md-2">
+
+<button
+class="btn btn-primary w-100"
+onclick="addCustomer()">
+
+Save
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="card shadow mt-4">
+
+<div class="card-header">
+
+Customer Records
+
+</div>
+
+<div class="card-body">
+
+<table class="table table-bordered table-striped">
+
+<thead>
+
+<tr>
+
+<th>ID</th>
+<th>Name</th>
+<th>Contact</th>
+
+</tr>
+
+</thead>
+
+<tbody id="customerTable">
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+<!-- EXPENSE -->
+
+<div class="card shadow mt-4">
+
+<div class="card-header">
+
+Add Expense
+
+</div>
+
+<div class="card-body">
+
+<div class="row">
+
+<div class="col-md-3">
+
+<input
+id="expenseCategory"
+class="form-control"
+placeholder="Category">
+
+</div>
+
+<div class="col-md-5">
+
+<input
+id="expenseDesc"
+class="form-control"
+placeholder="Description">
+
+</div>
+
+<div class="col-md-2">
+
+<input
+id="expenseAmount"
+type="number"
+class="form-control"
+placeholder="Amount">
+
+</div>
+
+<div class="col-md-2">
+
+<button
+class="btn btn-success w-100"
+onclick="addExpense()">
+
+Save
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="card shadow mt-4">
+
+<div class="card-header">
+
+Expense Records
+
+</div>
+
+<div class="card-body">
+
+<table class="table table-bordered">
+
+<thead>
+
+<tr>
+
+<th>ID</th>
+<th>Category</th>
+<th>Description</th>
+<th>Amount</th>
+
+</tr>
+
+</thead>
+
+<tbody id="expenseTable">
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+<!-- INVENTORY -->
+
+<div class="card shadow mt-4">
+
+<div class="card-header">
+
+Add Inventory
+
+</div>
+
+<div class="card-body">
+
+<div class="row">
+
+<div class="col-md-4">
+
+<input
+id="itemName"
+class="form-control"
+placeholder="Item Name">
+
+</div>
+
+<div class="col-md-2">
+
+<input
+id="unit"
+class="form-control"
+placeholder="Unit">
+
+</div>
+
+<div class="col-md-2">
+
+<input
+id="stock"
+type="number"
+class="form-control"
+placeholder="Stock">
+
+</div>
+
+<div class="col-md-2">
+
+<input
+id="reorder"
+type="number"
+class="form-control"
+placeholder="Min Stock">
+
+</div>
+
+<div class="col-md-2">
+
+<button
+class="btn btn-warning w-100"
+onclick="addInventory()">
+
+Save
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="card shadow mt-4">
+
+<div class="card-header">
+
+Inventory Items
+
+</div>
+
+<div class="card-body">
+
+<table class="table table-bordered">
+
+<thead>
+
+<tr>
+
+<th>ID</th>
+<th>Item</th>
+<th>Unit</th>
+<th>Stock</th>
+
+</tr>
+
+</thead>
+
+<tbody id="inventoryTable">
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
 
 </div>
 
 <script>
 
-const API_URL =
-'https://gqqghtsyelrlfttwggdz.supabase.co/rest/v1/customers';
-
 const API_KEY =
 'sb_publishable_3U8X7VpmckKm2FOPZCGIuw_RhbA8UMc';
 
-async function addCustomer() {
+const BASE_URL =
+'https://gqqghtsyelrlfttwggdz.supabase.co/rest/v1';
 
-    const name =
-        document.getElementById('name').value;
+const HEADERS = {
+'apikey':API_KEY,
+'Content-Type':'application/json',
+'Prefer':'return=representation'
+};
 
-    const contact =
-        document.getElementById('contact').value;
+async function addCustomer(){
 
-    if(name === '')
-    {
-        alert('Enter Customer Name');
-        return;
-    }
+const name =
+document.getElementById('name').value;
 
-    const response = await fetch(
-        API_URL,
-        {
-            method:'POST',
-            headers:{
-                'apikey':API_KEY,
-                'Content-Type':'application/json',
-                'Prefer':'return=representation'
-            },
-            body:JSON.stringify({
-                customer_name:name,
-                contact_no:contact
-            })
-        }
-    );
+const contact =
+document.getElementById('contact').value;
 
-    if(response.ok)
-    {
-        alert('Customer Saved');
+await fetch(
+BASE_URL + '/customers',
+{
+method:'POST',
+headers:HEADERS,
+body:JSON.stringify({
+customer_name:name,
+contact_no:contact
+})
+}
+);
 
-        document.getElementById('name').value='';
-        document.getElementById('contact').value='';
-
-        loadCustomers();
-    }
-    else
-    {
-        alert('Save Failed');
-    }
+loadCustomers();
 
 }
 
 async function loadCustomers(){
 
-    const response = await fetch(
-        API_URL + '?select=*',
-        {
-            headers:{
-                'apikey':API_KEY
-            }
-        }
-    );
+const response =
+await fetch(
+BASE_URL + '/customers?select=*',
+{
+headers:{
+apikey:API_KEY
+}
+}
+);
 
-    const data = await response.json();
+const data =
+await response.json();
 
-    let html='';
+let html='';
 
-    data.forEach(row => {
+data.forEach(row=>{
 
-        html += `
-        <tr>
-            <td>${row.id}</td>
-            <td>${row.customer_name}</td>
-            <td>${row.contact_no || ''}</td>
-        </tr>
-        `;
+html+=`
+<tr>
+<td>${row.id}</td>
+<td>${row.customer_name}</td>
+<td>${row.contact_no||''}</td>
+</tr>
+`;
 
-    });
+});
 
-    document.getElementById('customerTable').innerHTML = html;
+document.getElementById('customerTable').innerHTML=html;
+
+document.getElementById('customerCount').innerText=
+data.length;
+
+}
+
+async function addExpense(){
+
+await fetch(
+BASE_URL + '/expenses',
+{
+method:'POST',
+headers:HEADERS,
+body:JSON.stringify({
+category:document.getElementById('expenseCategory').value,
+description:document.getElementById('expenseDesc').value,
+amount:Number(document.getElementById('expenseAmount').value)
+})
+}
+);
+
+loadExpenses();
+
+}
+
+async function loadExpenses(){
+
+const response =
+await fetch(
+BASE_URL + '/expenses?select=*',
+{
+headers:{
+apikey:API_KEY
+}
+}
+);
+
+const data =
+await response.json();
+
+let html='';
+
+data.forEach(row=>{
+
+html+=`
+<tr>
+<td>${row.id}</td>
+<td>${row.category}</td>
+<td>${row.description}</td>
+<td>${row.amount}</td>
+</tr>
+`;
+
+});
+
+document.getElementById('expenseTable').innerHTML=html;
+
+document.getElementById('expenseCount').innerText=
+data.length;
+
+}
+
+async function addInventory(){
+
+await fetch(
+BASE_URL + '/inventory',
+{
+method:'POST',
+headers:HEADERS,
+body:JSON.stringify({
+item_name:document.getElementById('itemName').value,
+unit:document.getElementById('unit').value,
+stock:Number(document.getElementById('stock').value),
+reorder_level:Number(document.getElementById('reorder').value)
+})
+}
+);
+
+loadInventory();
+
+}
+
+async function loadInventory(){
+
+const response =
+await fetch(
+BASE_URL + '/inventory?select=*',
+{
+headers:{
+apikey:API_KEY
+}
+}
+);
+
+const data =
+await response.json();
+
+let html='';
+
+data.forEach(row=>{
+
+html+=`
+<tr>
+<td>${row.id}</td>
+<td>${row.item_name}</td>
+<td>${row.unit}</td>
+<td>${row.stock}</td>
+</tr>
+`;
+
+});
+
+document.getElementById('inventoryTable').innerHTML=html;
+
+document.getElementById('inventoryCount').innerText=
+data.length;
 
 }
 
 loadCustomers();
+loadExpenses();
+loadInventory();
 
 </script>
 
