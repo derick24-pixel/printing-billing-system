@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Printing Billing System</title>
+</head>
+<body>
+
+<h1>Printing Billing System</h1>
+
+<button onclick="loadCustomers()">Load Customers</button>
+
+<pre id="result"></pre>
+
+<script>
+
+const SUPABASE_URL =
+'https://gqqghtsyelrlfttwggdz.supabase.co/rest/v1/customers?select=*';
+
+const API_KEY =
+'sb_publishable_3U8X7VpmckKm2FOPZCGIuw_RhbA8UMc';
+
+async function loadCustomers(){
+
+  const response = await fetch(
+    SUPABASE_URL,
+    {
+      headers:{
+        apikey: API_KEY
+      }
+    }
+  );
+
+  const data = await response.json();
+
+  document.getElementById('result').textContent =
+    JSON.stringify(data,null,2);
+
+}
+
+</script>
+
+</body>
+</html>
