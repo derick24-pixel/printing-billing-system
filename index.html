@@ -1,42 +1,168 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
-  <title>Printing Billing System</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Printing Billing System</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
 </head>
 <body>
 
-<h1>Printing Billing System</h1>
+<div class="container mt-4">
 
-<button onclick="loadCustomers()">Load Customers</button>
+    <h1 class="mb-4">🖨️ Printing Billing System</h1>
 
-<pre id="result"></pre>
+    <div class="card">
+        <div class="card-header">
+            Add Customer
+        </div>
+
+        <div class="card-body">
+
+            <input
+                type="text"
+                id="name"
+                class="form-control mb-2"
+                placeholder="Customer Name">
+
+            <input
+                type="text"
+                id="contact"
+                class="form-control mb-2"
+                placeholder="Contact Number">
+
+            <button
+                class="btn btn-primary"
+                onclick="addCustomer()">
+                Save Customer
+            </button>
+
+        </div>
+    </div>
+
+    <div class="mt-4">
+
+        <button
+            class="btn btn-success"
+            onclick="loadCustomers()">
+            Refresh Customers
+        </button>
+
+    </div>
+
+    <div class="mt-4">
+
+        <table class="table table-bordered table-striped">
+
+            <thead>
+
+                <tr>
+                    <th>ID</th>
+                    <th>Customer Name</th>
+                    <th>Contact No</th>
+                </tr>
+
+            </thead>
+
+            <tbody id="customerTable">
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
 
 <script>
 
-const SUPABASE_URL =
-'https://gqqghtsyelrlfttwggdz.supabase.co/rest/v1/customers?select=*';
+const API_URL =
+'https://gqqghtsyelrlfttwggdz.supabase.co/rest/v1/customers';
 
 const API_KEY =
 'sb_publishable_3U8X7VpmckKm2FOPZCGIuw_RhbA8UMc';
 
-async function loadCustomers(){
+async function addCustomer() {
 
-  const response = await fetch(
-    SUPABASE_URL,
+    const name =
+        document.getElementById('name').value;
+
+    const contact =
+        document.getElementById('contact').value;
+
+    if(name === '')
     {
-      headers:{
-        apikey: API_KEY
-      }
+        alert('Enter Customer Name');
+        return;
     }
-  );
 
-  const data = await response.json();
+    const response = await fetch(
+        API_URL,
+        {
+            method:'POST',
+            headers:{
+                'apikey':API_KEY,
+                'Content-Type':'application/json',
+                'Prefer':'return=representation'
+            },
+            body:JSON.stringify({
+                customer_name:name,
+                contact_no:contact
+            })
+        }
+    );
 
-  document.getElementById('result').textContent =
-    JSON.stringify(data,null,2);
+    if(response.ok)
+    {
+        alert('Customer Saved');
+
+        document.getElementById('name').value='';
+        document.getElementById('contact').value='';
+
+        loadCustomers();
+    }
+    else
+    {
+        alert('Save Failed');
+    }
 
 }
+
+async function loadCustomers(){
+
+    const response = await fetch(
+        API_URL + '?select=*',
+        {
+            headers:{
+                'apikey':API_KEY
+            }
+        }
+    );
+
+    const data = await response.json();
+
+    let html='';
+
+    data.forEach(row => {
+
+        html += `
+        <tr>
+            <td>${row.id}</td>
+            <td>${row.customer_name}</td>
+            <td>${row.contact_no || ''}</td>
+        </tr>
+        `;
+
+    });
+
+    document.getElementById('customerTable').innerHTML = html;
+
+}
+
+loadCustomers();
 
 </script>
 
